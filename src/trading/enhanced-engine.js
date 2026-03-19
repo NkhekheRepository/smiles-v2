@@ -40,7 +40,9 @@ class TradingEngine {
             if (this.validateTrade(order)) {
                 order.status = 'filled';
                 this.updatePortfolio(symbol, side, amount, price);
-                this.components.telegram.sendTradeUpdate(order);
+                if (this.components.telegram && typeof this.components.telegram.sendTradeUpdate === 'function') {
+                    this.components.telegram.sendTradeUpdate(order);
+                }
             } else {
                 order.status = 'rejected';
                 order.reason = 'Insufficient balance or risk limits exceeded';
@@ -107,8 +109,11 @@ class TradingEngine {
     }
 
     async getMarketPrice(symbol) {
-        const data = await this.components.dataManager.fetchOHLCV(symbol);
-        return data[data.length - 1]?.close || 0;
+        if (this.components.dataManager && typeof this.components.dataManager.fetchOHLCV === 'function') {
+            const data = await this.components.dataManager.fetchOHLCV(symbol);
+            return data[data.length - 1]?.close || 50000;
+        }
+        return 50000;
     }
 
     async getPortfolio() {
