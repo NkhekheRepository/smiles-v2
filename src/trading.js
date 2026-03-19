@@ -1,4 +1,4 @@
-class TradingEngine {
+class Trading {
     constructor(components) {
         this.components = components;
         this.positions = new Map();
@@ -181,4 +181,4 @@ class TradingEngine {
     }
 }
 
-module.exports = TradingEngine;
+module.exports = Trading;

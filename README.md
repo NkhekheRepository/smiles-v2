@@ -37,58 +37,44 @@ cd smiles-v2
 npm install
 ```
 
-## Configuration
-
-Create a `.env` file in the root directory:
-
-```env
-BINANCE_API_KEY=your_binance_api_key
-BINANCE_API_SECRET=your_binance_api_secret
-COINBASE_API_KEY=your_coinbase_api_key
-COINBASE_API_SECRET=your_coinbase_api_secret
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-TELEGRAM_CHAT_ID=your_telegram_chat_id
-ML_CONFIDENCE_THRESHOLD=0.7
-LSTM_EPOCHS=50
-LSTM_BATCH_SIZE=32
-MAX_POSITION_SIZE=0.1
-RISK_PER_TRADE=0.02
-STOP_LOSS_PERCENT=2.0
-TAKE_PROFIT_PERCENT=5.0
-PORT=3000
-NODE_ENV=development
-```
-
 ## Quick Start
 
 ```bash
 npm start
 ```
 
-## Architecture
+Then open http://localhost:3000 for the dashboard.
+
+## File Structure (Simple & Flat)
 
 ```
 smiles-v2/
-├── src/
-│   ├── index.js              # Main entry point
-│   ├── agents/
-│   │   ├── enhanced-signals.js   # Signal generation
-│   │   └── telegram.js           # Telegram notifications
-│   ├── trading/
-│   │   └── enhanced-engine.js     # Trading execution
-│   ├── ml/
-│   │   └── predictor.js           # ML prediction models
-│   ├── sentiment/
-│   │   └── analyzer.js            # Sentiment analysis
-│   ├── indicators/
-│   │   └── advanced-indicators.js # Technical indicators
-│   ├── optimization/
-│   │   └── portfolio-optimizer.js # Portfolio optimization
-│   └── data/
-│       └── index.js               # Data management
-├── public/                 # Web dashboard
-├── tests/                  # Test files
-└── docs/                   # Documentation
+├── src/                     # All source code (flat, easy to navigate)
+│   ├── index.js             # Main entry point
+│   ├── ai.js                # ML predictions (LSTM)
+│   ├── sentiment.js         # Sentiment analysis
+│   ├── signals.js           # Trading signals
+│   ├── trading.js           # Trading engine
+│   ├── indicators.js        # Technical indicators
+│   ├── portfolio.js         # Portfolio optimization
+│   ├── telegram.js          # Telegram notifications
+│   └── data.js              # Data management
+│
+├── examples/                # Example scripts
+│   ├── 01-getting-started.js
+│   ├── 02-technical-analysis.js
+│   └── 03-portfolio-optimization.js
+│
+├── tests/                   # Test files
+├── public/                  # Web dashboard
+├── docs/                    # Documentation
+│   ├── ARCHITECTURE.md
+│   ├── API.md
+│   ├── DEPLOYMENT.md
+│   ├── GETTING_STARTED.md
+│   └── TROUBLESHOOTING.md
+│
+└── README.md
 ```
 
 ## API Endpoints
@@ -108,10 +94,17 @@ smiles-v2/
 - `portfolio` - Portfolio update
 - `alert` - System alert
 
-## Documentation
+## Configuration
 
-- [Architecture](docs/ARCHITECTURE.md)
-- [API Reference](docs/API.md)
+Create a `.env` file:
+
+```env
+BINANCE_API_KEY=your_api_key
+BINANCE_API_SECRET=your_api_secret
+TELEGRAM_BOT_TOKEN=your_token
+TELEGRAM_CHAT_ID=your_chat_id
+PORT=3000
+```
 
 ## Testing
 
@@ -119,13 +112,21 @@ smiles-v2/
 npm test
 ```
 
+## Documentation
+
+- [Getting Started](docs/GETTING_STARTED.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [API Reference](docs/API.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+
 ## Risk Warning
 
 **IMPORTANT**: Cryptocurrency trading involves substantial risk of loss. This software is provided for educational purposes only. Always test with paper trading first and never invest more than you can afford to lose.
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License
 
 ## Contributing
 
@@ -134,10 +135,6 @@ MIT License - see LICENSE file for details.
 3. Commit your changes
 4. Push to the branch
 5. Open a Pull Request
-
-## Support
-
-For issues and feature requests, please use GitHub Issues.
 
 ---
 

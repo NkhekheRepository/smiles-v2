@@ -1,4 +1,4 @@
-class EnhancedSignals {
+class Signals {
     constructor(components) {
         this.components = components;
         this.activeSignals = new Map();
@@ -10,7 +10,7 @@ class EnhancedSignals {
             const data = await this.components.dataManager.fetchOHLCV(symbol);
             const indicators = await this.components.indicators.calculateAll(symbol, data);
             const sentiment = await this.components.sentimentAnalyzer.analyze(symbol);
-            const prediction = await this.components.mlPredictor.predict(symbol, data);
+            const prediction = await this.components.ai.predict(symbol, data);
             
             const technicalScore = this.calculateTechnicalScore(indicators);
             const sentimentScore = sentiment.score;
@@ -93,4 +93,4 @@ class EnhancedSignals {
     }
 }
 
-module.exports = EnhancedSignals;
+module.exports = Signals;

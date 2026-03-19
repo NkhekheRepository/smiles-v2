@@ -1,4 +1,4 @@
-class PortfolioOptimizer {
+class Portfolio {
     constructor() {
         this.allocations = new Map();
         this.riskFreeRate = 0.04;
@@ -140,4 +140,4 @@ class PortfolioOptimizer {
     }
 }
 
-module.exports = PortfolioOptimizer;
+module.exports = Portfolio;

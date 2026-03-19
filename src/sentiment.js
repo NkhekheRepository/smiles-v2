@@ -1,4 +1,4 @@
-class SentimentAnalyzer {
+class Sentiment {
     constructor() {
         this.cache = new Map();
         this.cacheTimeout = 5 * 60 * 1000;
@@ -96,4 +96,4 @@ class SentimentAnalyzer {
     }
 }
 
-module.exports = SentimentAnalyzer;
+module.exports = Sentiment;

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-class TelegramAgent {
+class Telegram {
     constructor() {
         this.botToken = process.env.TELEGRAM_BOT_TOKEN;
         this.chatId = process.env.TELEGRAM_CHAT_ID;
@@ -77,4 +77,4 @@ ${new Date().toLocaleString()}
     }
 }
 
-module.exports = TelegramAgent;
+module.exports = Telegram;

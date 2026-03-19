@@ -1,4 +1,4 @@
-class AdvancedIndicators {
+class Indicators {
     constructor() {
         this.cache = new Map();
     }
@@ -164,4 +164,4 @@ class AdvancedIndicators {
     }
 }
 
-module.exports = AdvancedIndicators;
+module.exports = Indicators;

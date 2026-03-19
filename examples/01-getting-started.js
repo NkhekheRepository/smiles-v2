@@ -2,47 +2,44 @@
  * SMILES v2 - Getting Started Example
  * 
  * This example demonstrates how to:
- * 1. Initialize the ML predictor
+ * 1. Initialize the AI predictor
  * 2. Generate trading signals
  * 3. Execute trades
  * 
  * Run: node examples/01-getting-started.js
  */
 
-const EnhancedSignals = require('../src/agents/enhanced-signals');
-const DataManager = require('../src/data');
-const AdvancedIndicators = require('../src/indicators/advanced-indicators');
-const SentimentAnalyzer = require('../src/sentiment/analyzer');
-const MLPredictor = require('../src/ml/predictor');
+const Signals = require('../src/signals');
+const Data = require('../src/data');
+const Indicators = require('../src/indicators');
+const Sentiment = require('../src/sentiment');
+const AI = require('../src/ai');
 
 async function main() {
     console.log('===========================================');
     console.log('  SMILES v2 - Getting Started Example');
     console.log('===========================================\n');
 
-    // Initialize components
     console.log('1. Initializing components...');
-    const dataManager = new DataManager();
-    const indicators = new AdvancedIndicators();
-    const sentimentAnalyzer = new SentimentAnalyzer();
-    const mlPredictor = new MLPredictor();
+    const dataManager = new Data();
+    const indicators = new Indicators();
+    const sentimentAnalyzer = new Sentiment();
+    const ai = new AI();
     
     await dataManager.initialize();
-    await mlPredictor.initialize();
+    await ai.initialize();
     console.log('   Components initialized!\n');
 
-    // Create signal generator
     console.log('2. Creating signal generator...');
     const components = {
         dataManager,
         indicators,
         sentimentAnalyzer,
-        mlPredictor
+        ai
     };
-    const signals = new EnhancedSignals(components);
+    const signals = new Signals(components);
     console.log('   Signal generator ready!\n');
 
-    // Generate signals for multiple symbols
     console.log('3. Generating trading signals...');
     const symbols = ['BTC/USDT', 'ETH/USDT', 'SOL/USDT'];
     

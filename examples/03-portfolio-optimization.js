@@ -9,24 +9,21 @@
  * Run: node examples/03-portfolio-optimization.js
  */
 
-const PortfolioOptimizer = require('../src/optimization/portfolio-optimizer');
+const Portfolio = require('../src/portfolio');
 
 async function main() {
     console.log('===========================================');
     console.log('  SMILES v2 - Portfolio Optimization');
     console.log('===========================================\n');
 
-    // Initialize optimizer
     console.log('1. Initializing portfolio optimizer...');
-    const optimizer = new PortfolioOptimizer();
+    const optimizer = new Portfolio();
     console.log('   Optimizer ready!\n');
 
-    // Run optimization
     console.log('2. Running portfolio optimization...');
     const allocations = await optimizer.optimize();
     console.log('   Optimization complete!\n');
 
-    // Display optimal allocations
     console.log('3. OPTIMAL PORTFOLIO ALLOCATIONS:');
     console.log('   --------------------------------');
     console.log('   Symbol      | Weight   | Expected Return | Risk');
@@ -48,7 +45,6 @@ async function main() {
     
     console.log('   -------------------------------------------');
     
-    // Calculate portfolio metrics
     const sharpeRatio = optimizer.calculateSharpeRatio(
         allocations.map(a => a.weight),
         allocations.map(a => a.expectedReturn),
@@ -60,7 +56,6 @@ async function main() {
     console.log(`   Portfolio Risk: ${(totalRisk * 100).toFixed(2)}%`);
     console.log(`   Sharpe Ratio: ${sharpeRatio.toFixed(2)}`);
     
-    // Risk assessment
     console.log('\n5. RISK ASSESSMENT:');
     if (totalRisk < 0.15) {
         console.log('   🟢 LOW RISK portfolio');
@@ -70,7 +65,6 @@ async function main() {
         console.log('   🔴 HIGH RISK portfolio');
     }
 
-    // Get efficient frontier
     console.log('\n6. EFFICIENT FRONTIER POINTS:');
     const frontier = optimizer.getEfficientFrontier();
     console.log('   Risk(%)  | Return(%) | Sharpe');
@@ -81,7 +75,6 @@ async function main() {
     }
     console.log('   ...');
 
-    // Rebalancing example
     console.log('\n7. REBALANCING EXAMPLE:');
     const currentPortfolio = [
         { symbol: 'BTC/USDT', weight: 0.6 },

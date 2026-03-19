@@ -1,11 +1,11 @@
-const EnhancedSignals = require('./agents/enhanced-signals');
-const TradingEngine = require('./trading/enhanced-engine');
-const SentimentAnalyzer = require('./sentiment/analyzer');
-const MLPredictor = require('./ml/predictor');
-const PortfolioOptimizer = require('./optimization/portfolio-optimizer');
-const DataManager = require('./data');
-const TelegramAgent = require('./agents/telegram');
-const AdvancedIndicators = require('./indicators/advanced-indicators');
+const Signals = require('./signals');
+const Trading = require('./trading');
+const Sentiment = require('./sentiment');
+const AI = require('./ai');
+const Portfolio = require('./portfolio');
+const Data = require('./data');
+const Telegram = require('./telegram');
+const Indicators = require('./indicators');
 const express = require('express');
 const http = require('http');
 const SocketIO = require('socket.io');
@@ -31,19 +31,19 @@ class SMILESv2 {
         this.setupExpress();
         this.setupSocketIO();
         
-        this.components.dataManager = new DataManager();
+        this.components.dataManager = new Data();
         await this.components.dataManager.initialize();
 
-        this.components.indicators = new AdvancedIndicators();
-        this.components.sentimentAnalyzer = new SentimentAnalyzer();
-        this.components.mlPredictor = new MLPredictor();
-        this.components.portfolioOptimizer = new PortfolioOptimizer();
-        this.components.tradingEngine = new TradingEngine(this.components);
-        this.components.signals = new EnhancedSignals(this.components);
-        this.components.telegram = new TelegramAgent();
+        this.components.indicators = new Indicators();
+        this.components.sentimentAnalyzer = new Sentiment();
+        this.components.ai = new AI();
+        this.components.portfolio = new Portfolio();
+        this.components.trading = new Trading(this.components);
+        this.components.signals = new Signals(this.components);
+        this.components.telegram = new Telegram();
 
-        await this.components.mlPredictor.initialize();
-        await this.components.tradingEngine.initialize();
+        await this.components.ai.initialize();
+        await this.components.trading.initialize();
         
         console.log('✅ All components initialized');
     }
@@ -63,7 +63,7 @@ class SMILESv2 {
 
         this.app.get('/api/portfolio', async (req, res) => {
             try {
-                const portfolio = await this.components.tradingEngine.getPortfolio();
+                const portfolio = await this.components.trading.getPortfolio();
                 res.json(portfolio);
             } catch (error) {
                 res.status(500).json({ error: error.message });
@@ -92,7 +92,7 @@ class SMILESv2 {
         this.app.post('/api/trade', async (req, res) => {
             try {
                 const { symbol, side, amount, type } = req.body;
-                const result = await this.components.tradingEngine.executeTrade({ symbol, side, amount, type });
+                const result = await this.components.trading.executeTrade({ symbol, side, amount, type });
                 res.json(result);
             } catch (error) {
                 res.status(500).json({ error: error.message });
@@ -165,7 +165,7 @@ class SMILESv2 {
                         await this.components.telegram.sendSignal(signal);
                         
                         if (signal.confidence > 0.75) {
-                            await this.components.tradingEngine.processSignal(signal);
+                            await this.components.trading.processSignal(signal);
                         }
                     }
                 }
@@ -178,7 +178,7 @@ class SMILESv2 {
     async startPortfolioOptimization() {
         setInterval(async () => {
             try {
-                const allocations = await this.components.portfolioOptimizer.optimize();
+                const allocations = await this.components.portfolio.optimize();
                 this.io.emit('allocations', allocations);
             } catch (error) {
                 console.error('Portfolio optimization error:', error);
@@ -190,8 +190,8 @@ class SMILESv2 {
         console.log('🛑 Stopping SMILES v2...');
         this.isRunning = false;
         
-        if (this.components.tradingEngine) {
-            await this.components.tradingEngine.shutdown();
+        if (this.components.trading) {
+            await this.components.trading.shutdown();
         }
         
         if (this.server) {

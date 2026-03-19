@@ -383,9 +383,7 @@ Tests:       83 passed, 83 total
 | File | Purpose | Location |
 |------|---------|----------|
 | `.env` | Environment variables | Project root |
-| `config/` | Configuration files | Project root |
-| `src/config/` | Source configuration | `src/config/` |
-| `logs/` | Application logs | Project root |
+| `src/` | All source files | `src/*.js` |
 
 ### Default Ports
 
@@ -398,19 +396,24 @@ Tests:       83 passed, 83 total
 
 ```
 smiles-v2/
-├── src/                    # Source code
-│   ├── agents/             # Trading agents
-│   ├── trading/            # Trading engine
-│   ├── ml/                 # Machine learning
-│   ├── sentiment/          # Sentiment analysis
-│   ├── indicators/         # Technical indicators
-│   ├── optimization/       # Portfolio optimization
-│   └── data/               # Data management
+├── src/                    # All source code (flat, easy to navigate)
+│   ├── index.js            # Main entry point
+│   ├── ai.js               # ML predictions (LSTM)
+│   ├── sentiment.js         # Sentiment analysis
+│   ├── signals.js          # Trading signals
+│   ├── trading.js          # Trading engine
+│   ├── indicators.js        # Technical indicators
+│   ├── portfolio.js        # Portfolio optimization
+│   ├── telegram.js         # Telegram notifications
+│   └── data.js             # Data management
+├── examples/               # Example scripts
+│   ├── 01-getting-started.js
+│   ├── 02-technical-analysis.js
+│   └── 03-portfolio-optimization.js
 ├── tests/                  # Test files
 ├── docs/                   # Documentation
-├── examples/               # Example scripts
 ├── public/                 # Web dashboard
-└── config/                 # Configuration files
+└── README.md               # Main documentation
 ```
 
 ---
@@ -496,9 +499,9 @@ When ready for live trading:
 
 SMILES v2 supports custom technical indicators. To add your own:
 
-1. Create a new file in `src/indicators/`
+1. Add new indicator functions to `src/indicators.js`
 2. Implement the indicator function
-3. Add to the export list
+3. Add to the calculateAll() method
 4. Use in signal generation
 
 #### Strategy Development

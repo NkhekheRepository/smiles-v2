@@ -1,4 +1,4 @@
-class MLPredictor {
+class AI {
     constructor() {
         this.models = new Map();
         this.isInitialized = false;
@@ -119,4 +119,4 @@ class MLPredictor {
     }
 }
 
-module.exports = MLPredictor;
+module.exports = AI;

@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-class DataManager {
+class Data {
     constructor() {
         this.cache = new Map();
         this.cacheTimeout = 60000;
@@ -106,4 +106,4 @@ class DataManager {
     }
 }
 
-module.exports = DataManager;
+module.exports = Data;
