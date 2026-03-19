@@ -1,65 +1,108 @@
 # SMILES v2 Architecture
 
-## System Overview
+Technical architecture documentation for the SMILES v2 trading system.
 
-SMILES v2 is built with a modular architecture designed for scalability and maintainability.
+## Technology Stack
 
-## Components
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| Runtime | Node.js 18+ | JavaScript runtime |
+| Web Server | Express.js | REST API |
+| Real-time | Socket.IO | WebSocket |
+| ML | Brain.js | Neural networks |
+| Data | CCXT | Exchange connectivity |
+| Testing | Jest | Unit testing |
 
-### Core Components
-
-1. **Trading Engine** (`src/trading/enhanced-engine.js`)
-   - Order execution
-   - Portfolio management
-   - Risk controls
-
-2. **ML Predictor** (`src/ml/predictor.js`)
-   - LSTM neural networks
-   - Ensemble models
-   - Feature extraction
-
-3. **Sentiment Analyzer** (`src/sentiment/analyzer.js`)
-   - Social media analysis
-   - News sentiment
-   - Market mood detection
-
-4. **Signal Generator** (`src/agents/enhanced-signals.js`)
-   - Multi-factor signal generation
-   - Confidence scoring
-   - Signal history
-
-5. **Portfolio Optimizer** (`src/optimization/portfolio-optimizer.js`)
-   - Markowitz optimization
-   - Risk management
-   - Rebalancing
-
-6. **Data Manager** (`src/data/index.js`)
-   - Multi-exchange support
-   - Caching layer
-   - Data normalization
-
-### Data Flow
+## System Architecture
 
 ```
-Market Data → Data Manager → Indicators
-                                  ↓
+Client -> Express.js + Socket.IO -> Core System -> Exchange APIs
+                                              |
+                    +----------+-------------+-------------+
+                    |          |             |             |
+              Data Manager  Indicators   ML Predictor  Sentiment
+                    |          |             |             |
+                    +----------+-------------+-------------+
+                              |             |
+                        Signals      Trading Engine
+                              |             |
+                         Telegram Agent
+```
+
+## Core Components
+
+### 1. Data Manager (src/data/index.js)
+- Fetch OHLCV data from exchanges
+- Manage data caching
+- Handle API rate limiting
+
+### 2. Advanced Indicators (src/indicators/advanced-indicators.js)
+- RSI, MACD, Bollinger Bands, EMA
+- Stochastic, Williams %R, ATR
+- Volume indicators (OBV, Volume Ratio)
+
+### 3. ML Predictor (src/ml/predictor.js)
+- LSTM Neural Networks
+- Ensemble models
+- Feature extraction
+
+### 4. Sentiment Analyzer (src/sentiment/analyzer.js)
+- Social media analysis
+- News sentiment
+- Market mood detection
+
+### 5. Enhanced Signals (src/agents/enhanced-signals.js)
+Signal scoring:
+```
+Final = (Technical x 0.4) + (Sentiment x 0.3) + (ML x 0.3)
+```
+
+### 6. Trading Engine (src/trading/enhanced-engine.js)
+- Order execution
+- Position management
+- Risk controls
+
+### 7. Portfolio Optimizer (src/optimization/portfolio-optimizer.js)
+- Markowitz optimization
+- Sharpe ratio maximization
+
+### 8. Telegram Agent (src/agents/telegram.js)
+- Signal alerts
+- Trade notifications
+
+## Data Flow
+
+```
+Market Data -> Data Manager -> Indicators
+                                  |
                              ML Predictor
-                                  ↓
+                                  |
                           Sentiment Analyzer
-                                  ↓
-                          Signal Generator → Trading Engine
-                                                        ↓
+                                  |
+                          Signal Generator -> Trading Engine
+                                                        |
                                                    Exchange
 ```
 
-## API Design
+## Configuration
 
-- REST API for client communication
-- WebSocket for real-time updates
-- Modular component system
+| Variable | Default | Description |
+|----------|---------|-------------|
+| ML_CONFIDENCE_THRESHOLD | 0.7 | Min confidence |
+| LSTM_EPOCHS | 50 | Training epochs |
+| MAX_POSITION_SIZE | 0.1 | Max position % |
+| STOP_LOSS_PERCENT | 2.0 | Stop loss % |
+
+## Scalability
+
+- Data caching with TTL
+- WebSocket connection pooling
+- Health check endpoints
+- Graceful shutdown
 
 ## Security
 
-- Environment variables for secrets
+- API keys in environment variables
+- No keys in version control
 - Input validation
-- Rate limiting considerations
+- HTTPS in production
